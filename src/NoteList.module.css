@@ -1,0 +1,16 @@
+.card {
+transition: translate ease-in-out 100ms, box-shadow ease-in-out 100ms;
+}
+
+.card:hover,
+.card:focus {
+    translate: 0 -2px;
+    box-shadow: 0 5px 5px 0 rgba(0,0,0,0.2);
+}
+
+.badgetag {
+    background-color: deepskyblue !important;
+    color: black !important;
+    border-radius: 3px;
+    font-family: monospace;
+}
