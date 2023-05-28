@@ -1,6 +1,11 @@
 import React from "react";
 import { Note } from "../App";
-import { Navigate, Outlet, useParams } from "react-router-dom";
+import {
+  Navigate,
+  Outlet,
+  useOutletContext,
+  useParams,
+} from "react-router-dom";
 
 type NoteLayoutProps = {
   notes: Note[];
@@ -17,3 +22,11 @@ const NoteLayout = ({ notes }: NoteLayoutProps) => {
 };
 
 export default NoteLayout;
+
+export function useNote() {
+  /*  useOutletContext is a hook that returns the context of the nearest 
+    ancestor. In this case, it can be used in any of the routes for access
+    to all of the context information. This helper function makes that 
+    easier. */
+  return useOutletContext<Note>();
+}

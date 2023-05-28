@@ -1,5 +1,14 @@
 import ReactSelect from "react-select";
-import { Badge, Button, Card, Col, Form, Row, Stack } from "react-bootstrap";
+import {
+  Badge,
+  Button,
+  Card,
+  Col,
+  Form,
+  Modal,
+  Row,
+  Stack,
+} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useMemo, useState } from "react";
 import { Note, Tag } from "./App";
@@ -17,9 +26,17 @@ type SimplifiedNote = {
   id: string;
 };
 
+type EditTagsModalProps = {
+  availableTags: Tag[];
+  handleClose: () => void;
+  show: boolean;
+};
+
 export function NoteList({ availableTags, notes }: NoteListProps) {
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
   const [title, setTitle] = useState<string>("");
+  const numNotes = notes.length;
+  const [editTagsModalIsOpen, setEditTagsModalIsOpen] = useState(false);
 
   const filteredNotes = useMemo(() => {
     return notes.filter((note) => {
@@ -60,7 +77,12 @@ export function NoteList({ availableTags, notes }: NoteListProps) {
           <Stack gap={2} direction="horizontal">
             <Link to="/new">
               <Button variant="primary">Create</Button>
-              <Button variant="outline-secondary">Edit Tags</Button>
+              <Button
+                onClick={() => setEditTagsModalIsOpen(true)}
+                variant="outline-secondary"
+              >
+                Edit Tags
+              </Button>
             </Link>
           </Stack>
         </Col>
@@ -106,6 +128,9 @@ export function NoteList({ availableTags, notes }: NoteListProps) {
         </Row>
       </Form>
       {/* Setting the number of columns depending on screen size */}
+      <Row className="my_label">
+        <div>Current Notes Total: {numNotes}</div>
+      </Row>
       <Row xs={1} sm={2} lg={3} xl={4} className="g-3">
         {filteredNotes.map((note) => (
           <Col key={note.id}>
@@ -113,6 +138,11 @@ export function NoteList({ availableTags, notes }: NoteListProps) {
           </Col>
         ))}
       </Row>
+      <EditTagsModal
+        show={editTagsModalIsOpen}
+        handleClose={() => setEditTagsModalIsOpen(false)}
+        availableTags={tags}
+      />
     </>
   );
 }
@@ -124,7 +154,7 @@ function NoteCard({ id, title, tags }: SimplifiedNote) {
       to={`/${id}`}
       className={`h-100 text-reset text-decoration ${styles.card}`}
     >
-      <Card.Body>
+      <Card.Body className={`${styles.CardBodyStyle}`}>
         <Stack
           gap={2}
           className="align-items-center justify-content-center h-100"
@@ -149,6 +179,36 @@ function NoteCard({ id, title, tags }: SimplifiedNote) {
         </Stack>
       </Card.Body>
     </Card>
+  );
+}
+
+function EditTagsModal({
+  availableTags,
+  handleClose,
+  show,
+}: EditTagsModalProps) {
+  return (
+    <Modal show={show} onHide={handleClose}>
+      <Modal.Header>
+        <Modal.Title>Edit Tags</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form>
+          <Stack gap={2}>
+            {availableTags.map((tag) => (
+              <Row key={tag.id}>
+                <Col>
+                  <Form.Control type="text" value={tag.label} />
+                </Col>
+                <Col xs="auto">
+                  <Button variant="outline-danger">&times;</Button>
+                </Col>
+              </Row>
+            ))}
+          </Stack>{" "}
+        </Form>
+      </Modal.Body>
+    </Modal>
   );
 }
 

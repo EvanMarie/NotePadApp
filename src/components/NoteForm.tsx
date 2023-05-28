@@ -9,9 +9,17 @@ type NoteFormProps = {
   onSubmit: (data: NoteData) => void;
   onAddTag: (tag: Tag) => void;
   availableTags: Tag[];
-};
+  // This makes all the properties in NoteData optional
+} & Partial<NoteData>;
 
-export function NoteForm({ onSubmit, onAddTag, availableTags }: NoteFormProps) {
+export function NoteForm({
+  onSubmit,
+  onAddTag,
+  availableTags,
+  title = "",
+  markdown = "",
+  tags = [],
+}: NoteFormProps) {
   /* useRef:
         - useRef is a hook that returns a mutable ref object whose .current property
             is initialized to the passed argument (initialValue)
@@ -31,7 +39,7 @@ export function NoteForm({ onSubmit, onAddTag, availableTags }: NoteFormProps) {
   const titleRef = useRef<HTMLInputElement>(null);
   const markdownRef = useRef<HTMLTextAreaElement>(null);
   // Tags will start as an empty array of Tag objects
-  const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
+  const [selectedTags, setSelectedTags] = useState<Tag[]>(tags);
   const navigate = useNavigate();
 
   function handleSubmit(e: FormEvent) {
@@ -79,7 +87,7 @@ export function NoteForm({ onSubmit, onAddTag, availableTags }: NoteFormProps) {
                 className="form_field"
                 required
                 type="text"
-                placeholder="Enter title"
+                defaultValue={title}
               />
             </Form.Group>
           </Col>
@@ -119,7 +127,7 @@ export function NoteForm({ onSubmit, onAddTag, availableTags }: NoteFormProps) {
               required
               as="textarea"
               rows={15}
-              placeholder="Enter title"
+              defaultValue={markdown}
             />
           </Form.Group>
           <Stack direction="horizontal" gap={2} className="justify-content-end">

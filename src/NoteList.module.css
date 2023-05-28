@@ -1,16 +1,25 @@
+@import './index.css';
+
 .card {
 transition: translate ease-in-out 100ms, box-shadow ease-in-out 100ms;
 }
 
 .card:hover,
 .card:focus {
-    translate: 0 -2px;
+    translate: 1px -3px;
     box-shadow: 0 5px 5px 0 rgba(0,0,0,0.2);
 }
 
 .badgetag {
-    background-color: deepskyblue !important;
-    color: black !important;
+    background-color: var(--tagBadge) !important;
+    color: var(--darkFont) !important;
     border-radius: 3px;
     font-family: monospace;
+}
+
+.CardBodyStyle {
+    background-color: var(--darkBackground) !important;
+    color: var(--lightFont) !important;
+    border-radius: 4px !important;
+    height: 80px !important;
 }

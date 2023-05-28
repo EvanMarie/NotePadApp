@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
 
+/* 
+This essentially checking if the value exists yet and if not, it will 
+set it to the initial value.
+If it does exist, it will parse the value and set it to the value state.
+*/
+
 export function useLocalStorage<T>(key: string, initialValue: T | (() => T)) {
   const [value, setValue] = useState<T>(() => {
     const jsonValue = localStorage.getItem(key)
