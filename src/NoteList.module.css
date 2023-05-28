@@ -13,8 +13,10 @@ transition: translate ease-in-out 100ms, box-shadow ease-in-out 100ms;
 .badgetag {
     background-color: var(--tagBadge) !important;
     color: var(--darkFont) !important;
+    padding: 2px 4px;
     border-radius: 3px;
     font-family: monospace;
+    font-size: 10px;
 }
 
 .CardBodyStyle {
